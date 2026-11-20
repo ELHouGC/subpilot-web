@@ -28,13 +28,18 @@ export const useAuthStore = defineStore("auth", () => {
     initialized.value = true;
   }
 
-  async function signUp(email: string, password: string) {
+  async function signUp(email: string, password: string , fullName: string) {
     loading.value = true;
 
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          data: {
+            full_name: fullName.trim(),
+          },
+        },
       });
 
       if (error) throw error;
@@ -45,7 +50,7 @@ export const useAuthStore = defineStore("auth", () => {
     }
   }
 
-  async function signIn(email: string, password: string) {
+  async function signIn(email: string, password: string ) {
     loading.value = true;
 
     try {
